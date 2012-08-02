@@ -4,8 +4,8 @@ require File.expand_path('../lib/style_guidance/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Mason Fischer"]
   gem.email         = ["mason@thoughtbot.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{Rails Rake tasks for enforcing propper style}
+  gem.summary       = %q{Rake tasks for fixing single vs double quoted strings}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($\)
