@@ -1,6 +1,6 @@
-# StyleGuidance
+# Style Guidance
 
-TODO: Write a gem description
+Style Guidance will apply styles to your rails app
 
 ## Installation
 
@@ -18,7 +18,13 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+To run correct all style sets run
+
+    $ rake style
+
+To run correct a specific style set run
+
+    $ rake style:quotes
 
 ## Contributing
 

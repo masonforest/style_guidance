@@ -12,21 +12,23 @@ namespace :style do
             line.gsub(/("[^"\\]*(\\.[^"\\]*)*")/) do |string|
               # Skip interpolated strings
               next string if string =~ /\#{/
-
-              puts "Replace double quotes with single quotes on non interpolated string?"
-
-              # Print with the string colorized
-              puts file+":"+line_number.to_s+":"+line.gsub(string,"\e[32m#{string}\e[0m")
-              puts "(\e[32mynaq\e[0m) y=yes n=no q=quit a=yes to all" 
               if change_all
-                  changed = true
-                  "'#{string[1..-2]}'"
+                changed = true
+                puts "Replaced #{file}:#{line_number.to_s}:" + line.gsub(string,"\e[32m#{string}\e[0m")
+                "'#{string[1..-2]}'"
               else
+                puts "Replace double quotes with single quotes on non interpolated string?"
+
+                # Print with the string colorized
+                puts "#{file}:#{line_number.to_s}:"+line.gsub(string,"\e[32m#{string}\e[0m")
+                puts "(\e[32mynaq\e[0m) y=yes n=no  a=yes to all q=quit" 
+
                 choice = STDIN.getch
                 puts
                 case choice
                 when "y"
                   changed = true
+
                   "'#{string[1..-2]}'"
                 when "n"
                   string
@@ -47,3 +49,4 @@ namespace :style do
     end
   end
 end
+task :style => ["style:quotes"] 
