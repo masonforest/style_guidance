@@ -18,11 +18,11 @@ Or install it yourself as:
 
 ## Usage
 
-To run correct all style sets run
+To apply all rules run
 
     $ rake style
 
-To run correct a specific style set run
+To apply a specific rule run
 
     $ rake style:quotes
 

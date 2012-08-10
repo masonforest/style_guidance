@@ -1,7 +1,14 @@
 require 'io/console'
 
 namespace :style do
-    desc "Replaces double quoted strings with single quoted strings unless the string is interpolated"
+  StyleGuidance.rules.each do |rule|
+    desc rule::DESCRIPTION
+    task rule.to_sym do
+      rule.apply
+    end
+  end
+=begin
+  desc "Replaces double quoted strings with single quoted strings unless the string is interpolated"
     task :quotes do
       change_all = false
       Dir["**/*"].each do |file|
@@ -48,5 +55,6 @@ namespace :style do
         end
     end
   end
+=end
 end
 task :style => ["style:quotes"] 
