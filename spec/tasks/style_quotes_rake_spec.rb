@@ -2,15 +2,16 @@ require 'spec_helper'
 
 describe "style:quotes" do
   include_context "rake"
-  BEFORE_PATH="spec/fixtures/before/quotes.rb"
-  AFTER_PATH="spec/fixtures/after/quotes.rb"
+
+  let (:before_path) { "spec/fixtures/before/quotes.rb" }
+  let (:after_path) { "spec/fixtures/after/quotes.rb" }
 
   it "removes double quotes if they are not around interpolated strings" do
-    Dir.expects(:[]).returns([BEFORE_PATH])
+    StyleGuidance::Rules::Quotes.any_instance.stubs(files: [ before_path ])
     STDIN.expects(getch: "y")
-    IO.expects(:write).with(BEFORE_PATH, IO.read(AFTER_PATH))
+    IO.expects(:write).with(before_path, IO.read(after_path))
     $stdout.expects(:puts).at_least_once
-    subject.invoke
-  end
 
+    rake task_name
+  end
 end

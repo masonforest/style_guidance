@@ -1,8 +1,8 @@
 module StyleGuidance
   module Rules
-    class Quotes
+    class Hashes
       include StyleGuidance::Rule
-      DESCRIPTION = "Replaces double quoted strings with single quoted strings unless the string is interpolated"
+      DESCRIPTION = "Replaces ruby 1.8 hashes with ruby 1.9 hashes"
 
       def initialize
         @yes_to_all = false
@@ -14,18 +14,17 @@ module StyleGuidance
           source=IO.read(file)
           changed = false
           lines = source.lines.with_index(1).map do |line,line_number|
-            line.gsub(/("[^"\\]*(\\.[^"\\]*)*")/) do |string|
-              # Skip interpolated strings
-              next string if string =~ /\#{/
+            line.gsub(/(([^\w^:]):([\w\d_]+)\s*=>)/) do |match|
+              key = $2 + $3
               if change_all
                 changed = true
-                puts "Replaced #{file}:#{line_number.to_s}:" + line.gsub(string,"\e[32m#{string}\e[0m")
-                "'#{string[1..-2]}'"
+                puts "Replaced #{file}:#{line_number.to_s}:" + line.gsub(match,"\e[32m#{match}\e[0m")
+                key+":"
               else
-                puts "Replace double quotes with single quotes on non interpolated string?"
+                puts "Replace ruby 1.8 hash style?"
 
-                # Print with the string colorized
-                puts "#{file}:#{line_number.to_s}:"+line.gsub(string,"\e[32m#{string}\e[0m")
+                # Print with the key colorized
+                puts "#{file}:#{line_number.to_s}:"+line.gsub(match,"\e[32m#{match}\e[0m")
                 puts "(\e[32mynaq\e[0m) y=yes n=no  a=yes to all q=quit" 
 
                 choice = STDIN.getch
@@ -33,10 +32,9 @@ module StyleGuidance
                 case choice
                 when "y"
                   changed = true
-
-                  "'#{string[1..-2]}'"
+                  key+":"
                 when "n"
-                  string
+                  key
                 when "a"
                   change_all = true
                 when "q"
@@ -46,8 +44,8 @@ module StyleGuidance
                 end
               end
             end
-          end
-          if changed
+           end
+           if changed
             IO.write(file, lines.join)
           end
         end
