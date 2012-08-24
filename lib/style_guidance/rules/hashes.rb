@@ -9,14 +9,14 @@ module StyleGuidance
       end
 
       def apply
-        change_all = false
+        puts "applying hashes"
         files.each do |file|
           source=IO.read(file)
           changed = false
           lines = source.lines.with_index(1).map do |line,line_number|
             line.gsub(/(([^\w^:]):([\w\d_]+)\s*=>)/) do |match|
               key = $2 + $3
-              if change_all
+              if @yes_to_all
                 changed = true
                 puts "Replaced #{file}:#{line_number.to_s}:" + line.gsub(match,"\e[32m#{match}\e[0m")
                 key+":"
@@ -36,7 +36,7 @@ module StyleGuidance
                 when "n"
                   key
                 when "a"
-                  change_all = true
+                  @yes_to_all = true
                 when "q"
                   exit
                 else

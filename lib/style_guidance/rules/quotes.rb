@@ -9,7 +9,8 @@ module StyleGuidance
       end
 
       def apply
-        change_all = false
+        puts "applying quotes"
+        @yes_to_all = false
         files.each do |file|
           source=IO.read(file)
           changed = false
@@ -17,7 +18,7 @@ module StyleGuidance
             line.gsub(/("[^"\\]*(\\.[^"\\]*)*")/) do |string|
               # Skip interpolated strings
               next string if string =~ /\#{/
-              if change_all
+              if @yes_to_all
                 changed = true
                 puts "Replaced #{file}:#{line_number.to_s}:" + line.gsub(string,"\e[32m#{string}\e[0m")
                 "'#{string[1..-2]}'"
@@ -38,7 +39,8 @@ module StyleGuidance
                 when "n"
                   string
                 when "a"
-                  change_all = true
+                  @yes_to_all = true
+                  "'#{string[1..-2]}'"
                 when "q"
                   exit
                 else
