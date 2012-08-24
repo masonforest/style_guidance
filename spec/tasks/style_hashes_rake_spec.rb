@@ -5,7 +5,7 @@ describe "style:hashes" do
   let (:after_path) { "spec/fixtures/after/hashes.rb" }
 
   it "converts hash syntax to 1.9 style hashes" do
-    StyleGuidance::Rules::Hashes.any_instance.stubs(files: [ before_path ])
+    StyleGuidance::Guidelines::Hashes.any_instance.stubs(files: [ before_path ])
     STDIN.expects(getch: "y")
     IO.expects(:write).with(before_path, IO.read(after_path))
     $stdout.expects(:puts).at_least_once
