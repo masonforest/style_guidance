@@ -1,4 +1,5 @@
 require 'io/console'
+include Rake::DSL
 
 namespace :style do
   StyleGuidance.guidelines.each do |guidline|

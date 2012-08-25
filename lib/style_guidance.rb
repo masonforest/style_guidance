@@ -3,7 +3,7 @@ require 'style_guidance/railtie' if defined?(Rails)
 
 module StyleGuidance
   require 'style_guidance/guideline'
-  require 'style_guidance/guidelines/quotes'
+  require 'style_guidance/shell'
   Dir[File.dirname(__FILE__) + "/style_guidance/guidelines/*.rb"].each do|file|
     require file 
   end
